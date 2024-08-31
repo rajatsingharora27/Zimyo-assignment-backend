@@ -1,11 +1,15 @@
 const express = require("express");
+const router = require("../src/routes/index");
 const app = express();
-const port = 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+const db = require("./models");
+app.use(express.json());
+// router
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.use("/zimyo", router);
+
+db.sequelize.sync().then(() => {
+  app.listen(3001, () => {
+    console.log("server running on port 3001");
+  });
 });
